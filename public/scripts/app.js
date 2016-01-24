@@ -113,7 +113,21 @@ $(function () {
     });
   };
 
+  document.onkeydown = function(e) {
+    switch (e.keyCode) {
+        case 37:
+            console.log('left');
+            $('.contact.selected').prev().find('a').click();
+            break;
+        case 39:
+            console.log('right');
+            $('.contact.selected').next().find('a').click();
+            break;
+    }
+  };
+
   refresh();
+
   setInterval(function () {
     refresh();
   }, 30 * 1000)
