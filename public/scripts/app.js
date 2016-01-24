@@ -96,7 +96,9 @@ $(function () {
             Interface.$content.append(Builder.Post(post));
           });
 
-        Interface.$header.empty().append(Builder.Header(State.connectionsMap[id]));
+          Request.withStreamToken('PUT', 'stream/id/' + id + '/read', null);
+
+          Interface.$header.empty().append(Builder.Header(State.connectionsMap[id]));
           Interface.$content.scrollTop(1E10);
         });
 
