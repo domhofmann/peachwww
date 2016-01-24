@@ -83,13 +83,14 @@ $(function () {
           $(this).parent().addClass('selected');
 
           var id = $(this).parent().data('id');
+          var fresh = $(this).parent().hasClass('fresh');
           State.selectedStreamID = id;
 
           Interface.$content.empty();
           var posts = State.connectionsMap[id]['posts'];
           var firstNewPost = null;
           posts.forEach(function (post) {
-            if (post['isUnread'] && !firstNewPost) {
+            if (fresh && post['isUnread'] && !firstNewPost) {
               firstNewPost = post;
               Interface.$content.append(Builder.NewPostsIndicator());
             }
