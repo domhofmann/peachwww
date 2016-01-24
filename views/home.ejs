@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Peach</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+
+  <script src="/static/scripts/Autolinker.min.js"></script>
+
+  <script src="/static/scripts/network.js"></script>
+  <script src="/static/scripts/state.js"></script>
+  <script src="/static/scripts/builder.js"></script>
+  <script src="/static/scripts/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/styles/styles.css">
+
+</head>
+<body>
+
+  <div id="container">
+    <ul id="sidebar">
+      <!-- filled via app.js -->
+    </ul>
+
+    <div id="contentWrapper">
+      <div id="header">
+        <h1>🍑...</h1>
+      </div>
+      <div id="content">
+        <!-- filled via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- displayed if there isn't a stream token in local storage -->
+  <div class="modal login hidden">
+    <div class="content">
+      <h2>Sign In</h2>
+      <p>Enter your email and password below.</p>
+      <form>
+        <fieldset>
+          <input type="text" class="email" placeholder="Email Address">
+        </fieldset>
+        <fieldset>
+          <input type="password" class="password" placeholder="Password">
+        </fieldset>
+        <button>Sign In</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
