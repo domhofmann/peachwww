@@ -74,23 +74,19 @@ var Builder = {
         var $likeButton = $(this);
 
         if (!$likeButton.hasClass('liked')) {
-          Request.withStreamToken('POST', 'like', {'postId': postID}, {
-            success: function () {
-              post['likedByMe'] = true;
-              post['likeCount']++;
-              $likeButton.replaceWith($(assembleLikeString(post)));
-              attachLikeAction();
-            }
-          });
+          post['likedByMe'] = true;
+          post['likeCount']++;
+          $likeButton.replaceWith($(assembleLikeString(post)));
+          attachLikeAction();
+
+          Request.withStreamToken('POST', 'like', {'postId': postID}, null);
         } else {
-          Request.withStreamToken('DELETE', 'like/postID/' + postID, null, {
-            success: function () {
-              post['likedByMe'] = false;
-              post['likeCount']--;
-              $likeButton.replaceWith($(assembleLikeString(post)));
-              attachLikeAction();
-            }
-          })
+          post['likedByMe'] = false;
+          post['likeCount']--;
+          $likeButton.replaceWith($(assembleLikeString(post)));
+          attachLikeAction();
+
+          Request.withStreamToken('DELETE', 'like/postID/' + postID, null, null);
         }
         return false;
       });
@@ -134,7 +130,7 @@ var Builder = {
 
         $fragment = '\
           <div class="fragment image"> \
-            <img src="' + fragment['src']  + '" width="' + width + '" height="' + height + '"> \
+            <img class="lazyload" data-src="' + fragment['src']  + '" width="' + width + '" height="' + height + '"> \
           </div> \
         ';
 
