@@ -39,10 +39,18 @@ var Builder = {
       return null;
     }
 
-    var likeString = 'Like';
-    if (post['likeCount'] > 0) {
-      likeString += ' (' + post['likeCount'] + ')';
-    }
+
+    var assembleLikeString = function (post) {
+      var likeString = 'Like';
+      if (post['likeCount'] > 0) {
+        if (post['likedByMe']) {
+          likeString = 'Liked';
+        }
+        likeString += ' (' + post['likeCount'] + ')';
+      }
+
+      return '<div class="like' + (post['likedByMe'] ? ' liked' : '') + '"><a href="#">' + likeString + '</a></div>';
+    };
 
     var commentString = 'Comment';
     if (post['commentCount'] > 0) {
@@ -50,15 +58,45 @@ var Builder = {
     }
 
     var $post = $('\
-      <div class="post">' +
+      <div class="post" data-postid="' + post['id'] + '">' +
         fragments.join("\n") + '\
-        <div class="footer"> \
-          <div>' + likeString + '</div> \
+        <div class="footer">' +
+          assembleLikeString(post) + '\
           <div>' + commentString + '</div> \
           <div>&mdash;</div> \
           <div>' + moment.unix(post['createdTime']).fromNow() + '</div> \
         </div> \
     ');
+
+    var attachLikeAction = function () {
+      $post.find('.like').click(function () {
+        var postID = $(this).parent().parent().data('postid');
+        var $likeButton = $(this);
+
+        if (!$likeButton.hasClass('liked')) {
+          Request.withStreamToken('POST', 'like', {'postId': postID}, {
+            success: function () {
+              post['likedByMe'] = true;
+              post['likeCount']++;
+              $likeButton.replaceWith($(assembleLikeString(post)));
+              attachLikeAction();
+            }
+          });
+        } else {
+          Request.withStreamToken('DELETE', 'like/postID/' + postID, null, {
+            success: function () {
+              post['likedByMe'] = false;
+              post['likeCount']--;
+              $likeButton.replaceWith($(assembleLikeString(post)));
+              attachLikeAction();
+            }
+          })
+        }
+        return false;
+      });
+    };
+
+    attachLikeAction();
 
     return $post;
   },

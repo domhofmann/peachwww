@@ -166,6 +166,18 @@ a {
   color: #999;
 }
 
+#content .post .footer a {
+  color: #999;
+}
+
+#content .post .footer a:hover {
+  text-decoration: underline;
+}
+
+#content .post .footer .like.liked a {
+  color: #F95074;
+}
+
 #content .post .footer div {
   display: inline-block;
   margin-right: 10px;
