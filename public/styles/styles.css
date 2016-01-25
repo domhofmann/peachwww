@@ -48,7 +48,11 @@ a {
   display: block;
 }
 
-#sidebar .contact.selected a {
+#sidebar .contact a:hover {
+  background: #525260;
+}
+
+#sidebar .contact.selected a, #sidebar .contact.selected a:hover {
   background: #F95074;
 }
 
@@ -339,6 +343,11 @@ a {
   font-size: 15px;
   font-weight: 600;
   color: #fff;
+  cursor: pointer;
+}
+
+#comments .leave-comment button:hover {
+  background: #2ac644;
 }
 
 .modal {
@@ -406,4 +415,8 @@ a {
   font-size: 15px;
   font-weight: 600;
   color: #fff;
+}
+
+.modal.login button:hover {
+  background: #2ac644;
 }
