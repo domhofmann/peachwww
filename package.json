@@ -4,6 +4,7 @@
   "description": "An unofficial Peach web &amp; desktop client",
   "main": "index.js",
   "dependencies": {
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
     "http-proxy-middleware": "^0.9.1",
     "request": "^2.67.0"
