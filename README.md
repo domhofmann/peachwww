@@ -14,7 +14,7 @@ I need to be sure my needs align with the needs of Peach developers, which will 
 
 ---
 
-This project may be forked as the basis for an official client in the future, but right now we don't have the bandwidth to build or support. So it's a personal project for the forseeable future.
+This project may be forked as the basis for an official client in the future, but right now we don't have the bandwidth to build or support one. So it's a personal project for the forseeable future.
 
 ## Status
 
