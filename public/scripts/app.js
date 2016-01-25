@@ -32,6 +32,8 @@ $(function () {
               data = data['data'];
               if (data['streams'] && data['streams'].length > 0) {
                 SetStreamToken(data['streams'][0]['token']);
+                $(this).find('.email').val('');
+                $(this).find('.password').val('');
                 Interface.$loginModal.addClass('hidden');
                 refresh();
               }
