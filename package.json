@@ -1,0 +1,25 @@
+{
+  "name": "bloom",
+  "version": "0.0.1",
+  "description": "An unofficial Peach web &amp; desktop client",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "http-proxy-middleware": "^0.9.1",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domhofmann/bloom.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/domhofmann/bloom/issues"
+  },
+  "homepage": "https://github.com/domhofmann/bloom"
+}
