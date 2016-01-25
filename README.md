@@ -33,10 +33,9 @@ Very early. Can't make too many promises about the quality of the code, but I'm 
 ### Installation
 
 ```
-npm install
+$ npm install
+$ npm start
 ```
-
-Then run `index.js`. I personally like [supervisor](https://github.com/petruisfan/node-supervisor).
 
 ### TODO:
 
