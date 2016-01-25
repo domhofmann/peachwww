@@ -48,6 +48,7 @@ $ npm start
 * Leave and view comments
 * View profiles
 * Edit profile
+* Activity
 * Add friends
 * Create `text` posts
 * Create `image` posts
