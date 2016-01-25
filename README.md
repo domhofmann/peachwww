@@ -8,7 +8,7 @@ One of our goals for Peach is to be a great for developers. I'd like to make sur
 
 **This project will only ever use APIs and methods that 3rd party developers have access to.** This makes us more sensitive to developers on Peach.
 
-I need to be sure my needs align with the needs of Peach developers, which will help us to respond to them quickly and appropriately.
+I'd like to ensure my needs align with the needs of Peach developers, which will help us to respond to them quickly and appropriately.
 
 🍑
 
