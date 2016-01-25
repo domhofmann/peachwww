@@ -1,6 +1,6 @@
 # peachwww
 
-This is the source code for [peachwww](http://peachwww.com), an unofficial web client for Peach.
+This is the source code for [peachwww.com](http://peachwww.com), an unofficial web client for Peach.
 
 ## Purpose
 
