@@ -22,7 +22,7 @@ Very early. Can't make too many promises about the quality of the code, but I'm 
 
 ## Features
 
-- **Read-only** right now. Account creation and post creation are both unsupported in the current version
+- **Mostly read-only** right now. Account creation is not supported, and only text posts.
 
 - Automatically refreshes, so it's nice to leave open in a tab somewhere
 
@@ -51,7 +51,7 @@ $ npm start
 * Edit profile
 * Activity
 * Add friends
-* Create `text` posts
+* ~~Create `text` posts~~
 * Create `image` posts
 * Create `gif` posts
 * Create `video` posts

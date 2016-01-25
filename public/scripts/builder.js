@@ -29,9 +29,11 @@ var Builder = {
 
   CommentList: function (post) {
     var comments = [];
-    post['comments'].forEach(function (comment) {
-      comments.push(Builder.Comment(comment))
-    });
+    if (post['comments']) {
+      post['comments'].forEach(function (comment) {
+        comments.push(Builder.Comment(comment))
+      });
+    }
 
     if (comments.length < 1) {
       return null;

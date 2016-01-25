@@ -3,6 +3,7 @@ $(function () {
   Interface.$content = $('#content');
   Interface.$header = $('#header');
   Interface.$comments = $('#comments');
+  Interface.$compose = $('#compose');
 
   $(document).on('lazybeforeunveil', function (e) {
     var $element = $(e.target);
@@ -21,17 +22,21 @@ $(function () {
 
     Request.withStreamToken('GET', 'post/' + postID, null, {
       success: function (data) {
+        $('body').addClass('comments-on')
         Interface.$comments.find('.comment-list').empty();
         Interface.$comments.removeClass('hidden');;
         var post = data['data']['posts'][0];
         Interface.$comments.find('.comment-list').append(Builder.CommentList(post));
+        Interface.$comments.find('textarea').focus();
       }
     });
   });
 
   Interface.$comments.find('.close').click(function () {
     Interface.$comments.addClass('hidden');
+    $('body').removeClass('comments-on');
     Interface.$comments.find('textarea').val('');
+    Interface.$comments.find('textarea').blur();
     State.selectedPostID = null;
     return false;
   });
@@ -144,6 +149,14 @@ $(function () {
             return false;
           }
 
+          if ($(this).parent().hasClass('me')) {
+            $('body').addClass('me');
+            Interface.$compose.find('input').focus();
+          } else {
+            $('body').removeClass('me');
+            Interface.$compose.find('input').blur();
+          }
+
           Interface.$comments.find('.close').click();
 
           $('.contact.selected').removeClass('selected').removeClass('fresh');
@@ -191,7 +204,13 @@ $(function () {
     });
   };
 
+        // I'm writing this post from a computer. 😱
+
   document.onkeydown = function (e) {
+    if ($('body').hasClass('me')) {
+      return;
+    }
+
     switch (e.keyCode) {
       case 37:
         $('.contact.selected').prev().find('a').click();
@@ -201,6 +220,40 @@ $(function () {
         break;
     }
   };
+
+  Interface.$compose.find('input').keyup(function (e) {
+    if (e.keyCode == 13) {
+        var text = Interface.$compose.find('input').val().trim();
+        if (text.length > 0) {
+          Interface.$compose.find('input').val('');
+
+          message = [
+            {'type': 'text', 'text': text}
+          ];
+
+          var post = {
+            'message': message,
+            'createdTime': Math.floor(Date.now() / 1000),
+            'updatedTime': Math.floor(Date.now() / 1000),
+            'likeCount': 0,
+            'commentCount': 0,
+            'comments': [],
+          };
+
+          var $post = Builder.Post(post);
+          Interface.$content.append($post);
+          Interface.$content.scrollTop(1E10);
+
+          Request.withStreamToken('POST', 'post', {
+            'message': message
+          }, {
+            success: function (data) {
+              $post.data('postid', data['data']['id']);
+            }
+          });
+        }
+    }
+  });
 
   refresh();
 

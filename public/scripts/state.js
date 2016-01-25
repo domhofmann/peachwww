@@ -11,4 +11,5 @@ var Interface = {
   $header: null,
   $comments: null,
   $loginModal: null,
+  $compose: null,
 }

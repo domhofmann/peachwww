@@ -130,6 +130,10 @@ a {
   box-sizing: border-box;
 }
 
+.me #content {
+  padding-bottom: 100px;
+}
+
 #content .new-posts {
   border-bottom: 1px solid #F95074;
   color: #F95074;
@@ -351,6 +355,37 @@ a {
   background: #2ac644;
 }
 
+#compose {
+  position: fixed;
+  z-index: 2;
+  left: 220px;
+  height: 80px;
+  box-sizing: border-box;
+  padding: 20px;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.me #compose {
+  display: block;
+}
+
+.comments-on #compose {
+  right: 330px;
+}
+
+#compose input {
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 18px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
 .modal {
   position: absolute;
   background: rgba(229, 220, 214, 0.5);
@@ -401,7 +436,7 @@ a {
   padding: 0 10px;
   font-size: 15px;
   border: none;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
 }
 
