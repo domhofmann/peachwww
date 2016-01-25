@@ -146,7 +146,7 @@ var Builder = {
 
         $fragment = '\
           <div class="fragment video"> \
-            <video autoplay loop muted class="lazyload" preload="none" width="' + width + '" height="' + height + '" poster="' + fragment['posterSrc'] + '"> \
+            <video loop muted class="lazyload" preload="none" width="' + width + '" height="' + height + '" poster="' + fragment['posterSrc'] + '"> \
               <source src="' + fragment['src']  + '"> \
             </video> \
           </div> \

@@ -1,4 +1,11 @@
 $(function () {
+  $(document).on('lazybeforeunveil', function (e) {
+    var $element = $(e.target);
+    if ($element.is('video')) {
+      $element[0].play();
+    }
+  });
+
   var reloadTitle = function () {
     var freshCount = $('.contact.fresh').length;
     if (freshCount > 0) {
@@ -48,7 +55,7 @@ $(function () {
 
         State.connectionsMap = {};
 
-        console.log(data);
+        // console.log(data);
 
         Interface.$sidebar = $('#sidebar');
         Interface.$content = $('#content');
@@ -85,6 +92,14 @@ $(function () {
           var id = $(this).parent().data('id');
           var fresh = $(this).parent().hasClass('fresh');
           State.selectedStreamID = id;
+
+          // potential workaround for leaking videos
+          $('video').each(function () {
+            this.pause();
+            this.src = '';
+            this.load();
+            delete this;
+          });
 
           Interface.$content.empty();
           var posts = State.connectionsMap[id]['posts'];
