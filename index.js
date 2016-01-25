@@ -1,5 +1,17 @@
 var express = require('express');
 var app = express();
+var env = process.env.NODE_ENV || 'development';
+
+var forceSSL = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+
+if (env === 'production') {
+    app.use(forceSSL);
+}
 
 app.set('view engine', 'ejs');
 
