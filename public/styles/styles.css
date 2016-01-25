@@ -207,7 +207,7 @@ a {
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   padding: 19px 40px;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: 2;
 }
 
 #header h1 {
@@ -235,6 +235,7 @@ a {
   padding: 88px 20px 182px 20px;
   overflow-y: auto;
   background: #fff;
+  z-index: 1;
 }
 
 #comments h2 {
