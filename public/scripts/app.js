@@ -101,6 +101,8 @@ $(function () {
 
           Interface.$header.empty().append(Builder.Header(State.connectionsMap[id]));
           Interface.$content.scrollTop(1E10);
+
+          return false;
         });
 
         if (!State.selectedStreamID) {
@@ -108,7 +110,6 @@ $(function () {
         }
 
         reloadTitle();
-        return false;
       }
     });
   };
