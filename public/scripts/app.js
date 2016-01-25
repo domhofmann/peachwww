@@ -93,7 +93,8 @@ $(function () {
           var fresh = $(this).parent().hasClass('fresh');
           State.selectedStreamID = id;
 
-          // potential workaround for leaking videos
+          // shouldn't be necessary but improves performance of video playback
+          // also keeps memory footprint lower *shrug*
           $('video').each(function () {
             this.pause();
             this.src = '';
@@ -129,16 +130,14 @@ $(function () {
     });
   };
 
-  document.onkeydown = function(e) {
+  document.onkeydown = function (e) {
     switch (e.keyCode) {
-        case 37:
-            console.log('left');
-            $('.contact.selected').prev().find('a').click();
-            break;
-        case 39:
-            console.log('right');
-            $('.contact.selected').next().find('a').click();
-            break;
+      case 37:
+        $('.contact.selected').prev().find('a').click();
+        break;
+      case 39:
+        $('.contact.selected').next().find('a').click();
+        break;
     }
   };
 
