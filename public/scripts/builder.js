@@ -27,6 +27,38 @@ var Builder = {
     return $('<div class="new-posts"><span>New Posts</span></div>');
   },
 
+  CommentList: function (post) {
+    var comments = [];
+    post['comments'].forEach(function (comment) {
+      comments.push(Builder.Comment(comment))
+    });
+
+    if (comments.length < 1) {
+      return null;
+    }
+
+    return $(comments.join(''));
+  },
+
+  Comment: function (comment) {
+    // <div class="comment clear">
+    //   <div class="avatar" style="background-image: url(http://s3.amazonaws.com/assets.peachapi.com/25f25433510248b9ac0e262c162565a11453492637.jpg)"></div>
+    //   <div class="details">
+    //     <p class="author">Peter Woodman <span>@peterr</span></p>
+    //     <p class="body">This is a comment.</p>
+    //   </div>
+    // </div>
+    return '\
+      <div class="comment clear"> \
+        <div class="avatar" style="background-image: url(' + (comment['author']['avatarSrc'] || '')  + ')"></div> \
+        <div class="details"> \
+          <p class="author">' + comment['author']['displayName'] + ' <span>@' + comment['author']['name'] + '</span></p> \
+          <p class="body">' + comment['body'] + '</p> \
+        </div> \
+      </div> \
+    ';
+  },
+
   Post: function (post) {
     var fragments = [];
     post['message'].forEach(function (fragment) {
@@ -38,7 +70,6 @@ var Builder = {
     if (fragments.length < 1) {
       return null;
     }
-
 
     var assembleLikeString = function (post) {
       var likeString = 'Like';
@@ -56,13 +87,13 @@ var Builder = {
     if (post['commentCount'] > 0) {
       commentString += ' (' + post['commentCount'] + ')';
     }
+    commentString = '<div class="comment"><a href="#">' + commentString + '</a></div>';
 
     var $post = $('\
       <div class="post" data-postid="' + post['id'] + '">' +
-        fragments.join("\n") + '\
+        fragments.join('') + '\
         <div class="footer">' +
-          assembleLikeString(post) + '\
-          <div>' + commentString + '</div> \
+          assembleLikeString(post) + commentString + '\
           <div>&mdash;</div> \
           <div>' + moment.unix(post['createdTime']).fromNow() + '</div> \
         </div> \
@@ -92,7 +123,16 @@ var Builder = {
       });
     };
 
+    var attachCommentAction = function () {
+      $post.find('.comment').click(function () {
+        var postID = $(this).parent().parent().data('postid');
+        $(document).trigger('Peach.viewComments', postID);
+        return false;
+      });
+    };
+
     attachLikeAction();
+    attachCommentAction();
 
     return $post;
   },

@@ -1,4 +1,9 @@
 $(function () {
+  Interface.$sidebar =  $('#sidebar');
+  Interface.$content = $('#content');
+  Interface.$header = $('#header');
+  Interface.$comments = $('#comments');
+
   $(document).on('lazybeforeunveil', function (e) {
     var $element = $(e.target);
     if ($element.is('video')) {
@@ -6,10 +11,68 @@ $(function () {
     }
   });
 
+  $(document).on('Peach.viewComments', function (e, postID) {
+    if (postID == State.selectedPostID) {
+      Interface.$comments.find('.close').click();
+      return false;
+    }
+
+    State.selectedPostID = postID;
+
+    Request.withStreamToken('GET', 'post/' + postID, null, {
+      success: function (data) {
+        Interface.$comments.find('.comment-list').empty();
+        Interface.$comments.removeClass('hidden');;
+        var post = data['data']['posts'][0];
+        Interface.$comments.find('.comment-list').append(Builder.CommentList(post));
+      }
+    });
+  });
+
+  Interface.$comments.find('.close').click(function () {
+    Interface.$comments.addClass('hidden');
+    Interface.$comments.find('textarea').val('');
+    State.selectedPostID = null;
+    return false;
+  });
+
+  Interface.$comments.find('form').submit(function () {
+    var commentText = $(this).find('.comment-text').val();
+    if (commentText.trim().length < 1) {
+      return false;
+    }
+
+    var me = State.connectionsArray[0];
+    var comment = {
+      'author': {
+        'displayName': me['displayName'],
+        'name': me['name'],
+        'avatarSrc': me['avatarSrc']
+      },
+      'body': commentText
+    };
+    Interface.$comments.find('.comment-list').append($(Builder.Comment(comment)));
+    Interface.$comments.find('textarea').val('');
+
+    var count = Interface.$comments.find('.comment-list').children().length;
+    Interface.$content.find('.post[data-postid="' + State.selectedPostID + '"] .comment a').text('Comment (' + count + ')');
+
+    Request.withStreamToken('POST', 'comment', {
+      'postId': State.selectedPostID,
+      'body': commentText
+    }, {
+      success: function (data) {
+        if (data['success'] == true) {
+        }
+      }
+    });
+    return false;
+  });
+
   var reloadTitle = function () {
     var freshCount = $('.contact.fresh').length;
     if (freshCount > 0) {
-      document.title = 'Peach (' + freshCount + ')';
+      document.title = '(' + freshCount + ') Peach';
     } else {
       document.title = 'Peach';
     }
@@ -57,12 +120,6 @@ $(function () {
 
         State.connectionsMap = {};
 
-        // console.log(data);
-
-        Interface.$sidebar = $('#sidebar');
-        Interface.$content = $('#content');
-        Interface.$header = $('#header');
-
         Interface.$sidebar.empty();
         if (!State.selectedStreamID) {
           Interface.$content.empty();
@@ -86,6 +143,8 @@ $(function () {
           if ($(this).parent().hasClass('selected')) {
             return false;
           }
+
+          Interface.$comments.find('.close').click();
 
           $('.contact.selected').removeClass('selected').removeClass('fresh');
           reloadTitle();

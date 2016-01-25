@@ -27,6 +27,22 @@
       <div id="header">
         <h1>🍑...</h1>
       </div>
+      <div id="comments" class="hidden">
+        <h2>Comments</h2>
+        <a href="#" class="close">&#10005;</a>
+        <div class="comment-list">
+          <!-- filled via app.js -->
+        </div>
+
+        <div class="leave-comment">
+          <form>
+            <fieldset>
+              <textarea class="comment-text" placeholder="Say something nice" maxlength="250"></textarea>
+            </fieldset>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
       <div id="content">
         <!-- filled via app.js -->
       </div>
@@ -45,7 +61,7 @@
         <fieldset>
           <input type="password" class="password" placeholder="Password">
         </fieldset>
-        <button>Sign In</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   </div>

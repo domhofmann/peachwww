@@ -4,7 +4,7 @@ This is the source code for [peachwww.com](http://peachwww.com), an unofficial w
 
 ## Purpose
 
-One of our goals for Peach is to be a great for developers. I'd like to make sure we do that by building on it myself. 
+One of our goals for Peach is to be a great for developers. I'd like to make sure we do that by building on it myself.
 
 **This project will only ever use APIs and methods that 3rd party developers have access to.** This makes us more sensitive to developers on Peach.
 
@@ -45,7 +45,8 @@ $ npm start
 * ~~Mark viewed streams as read~~
 * ~~Render all post types~~
 * ~~Likes~~
-* Leave and view comments
+* ~~Leave and view comments~~
+* @mention autocompletion
 * View profiles
 * Edit profile
 * Activity
