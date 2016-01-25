@@ -29,14 +29,6 @@ app.use('/static', express.static('public'));
 
 var request = require('request');
 
-var requestWithStreamToken = function (method, action, options, callback) {
-  options = options || {};
-  options['method'] = method;
-  options['uri'] = 'http://localhost:3000/api/' + action;
-  options['auth'] = {'bearer': TEST_TOKEN};
-  request(options, callback);
-};
-
 app.get('/', function (req, res) {
   res.render('home');
 });
