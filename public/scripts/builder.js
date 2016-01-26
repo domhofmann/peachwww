@@ -1,5 +1,7 @@
 moment().format();
 
+var FRAGMENT_ID = 0;
+
 var Builder = {
   SidebarElement: function (connection) {
     var isFresh = false;
@@ -157,9 +159,32 @@ var Builder = {
 
     switch (fragment['type']) {
       case 'text':
+        var embedToAppend = null;
+        FRAGMENT_ID++;
+        var id = FRAGMENT_ID;
         $fragment = '\
-          <div class="fragment text">' + Autolinker.link(fragment['text'], {'twitter': false}) + '</div> \
+          <div id="' + id + '" class="fragment text">' + Autolinker.link(fragment['text'], {
+            'twitter': false,
+            replaceFn: function (autolinker, match) {
+              if (match.getType() == 'url') {
+                embedToAppend = match.getUrl();
+                $.get('/embedly/oembed', {'url': match.getUrl()}, function (data) {
+                  if (data['html']) {
+                    $('#' + id).append($('<div style="padding-top: 20px;">' + data['html'] + '</div>'));
+                  }
+                });
+              }
+              return true;
+            }
+          }) + '</div> \
         ';
+
+        if (embedToAppend) {
+
+          // $fragment.replace('<div ', '<div id="' + id + '" ');
+;
+        }
+
         break;
 
       case 'music':

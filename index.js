@@ -75,6 +75,18 @@ app.get('/embedly', function (req, res) {
   });
 });
 
+app.get('/embedly/oembed', function (req, res) {
+  request.get({
+    'url': 'https://api.embed.ly/1/oembed',
+    'qs': {
+      'url': req.query.url,
+      'key': embedlyAPIKey
+    }
+  }, function (error, response, body) {
+    res.send(JSON.parse(body));
+  });
+});
+
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log('App started on port ' + port);
