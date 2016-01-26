@@ -22,7 +22,7 @@ Very early. Can't make too many promises about the quality of the code, but I'm 
 
 ## Features
 
-- **Mostly read-only** right now. Account creation is not supported, and only text posts.
+- **Mostly read-only** right now. Account creation is not supported, and post types are about halfway there.
 
 - Automatically refreshes, so it's nice to leave open in a tab somewhere
 
@@ -30,10 +30,28 @@ Very early. Can't make too many promises about the quality of the code, but I'm 
 
 - Use the L/R arrow keys to navigate through people
 
+### Other notes
+
+- We don't currently support 3rd party image uploading through our API, so **all images posted through peachwww are uploaded to Imgur.** Peach will open this soon, and then I'll make the change here, but for now: upload at your own risk!
+
 ### Installation
 
 ```
 $ npm install
+```
+
+Then create a `.env` file in the project directory and set these variables:
+
+```
+IMGUR_CLIENT_ID=XXX
+EMBEDLY_API_KEY=XXX
+```
+
+Or if your environment has another way of setting `process.env`, do that. ⚡️
+
+Then:
+
+```
 $ npm start
 ```
 
@@ -52,7 +70,7 @@ $ npm start
 * Activity
 * Add friends
 * ~~Create `text` posts~~
-* Create `image` posts
-* Create `gif` posts
+* ~~Create `image` posts~~
+* ~~Create `gif` posts~~
 * Create `video` posts
 * Create `location` posts

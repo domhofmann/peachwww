@@ -204,7 +204,30 @@ $(function () {
     });
   };
 
-        // I'm writing this post from a computer. 😱
+  var createPost = function (message) {
+    var post = {
+      'message': message,
+      'createdTime': Math.floor(Date.now() / 1000),
+      'updatedTime': Math.floor(Date.now() / 1000),
+      'likeCount': 0,
+      'commentCount': 0,
+      'comments': [],
+    };
+
+    var $post = Builder.Post(post);
+    Interface.$content.append($post);
+    Interface.$content.scrollTop(1E10);
+
+    State.connectionsArray[0]['posts'].push(post);
+
+    Request.withStreamToken('POST', 'post', {
+      'message': message
+    }, {
+      success: function (data) {
+        $post.data('postid', data['data']['id']);
+      }
+    });
+  };
 
   document.onkeydown = function (e) {
     if ($('body').hasClass('me')) {
@@ -223,36 +246,112 @@ $(function () {
 
   Interface.$compose.find('input').keyup(function (e) {
     if (e.keyCode == 13) {
-        var text = Interface.$compose.find('input').val().trim();
-        if (text.length > 0) {
-          Interface.$compose.find('input').val('');
+      var text = Interface.$compose.find('input').val().trim();
 
-          message = [
+      if (text.length > 0) {
+        var fallback = function () {
+          createPost([
             {'type': 'text', 'text': text}
-          ];
+          ]);
+        };
 
-          var post = {
-            'message': message,
-            'createdTime': Math.floor(Date.now() / 1000),
-            'updatedTime': Math.floor(Date.now() / 1000),
-            'likeCount': 0,
-            'commentCount': 0,
-            'comments': [],
-          };
+        Interface.$compose.find('input').val('');
 
-          var $post = Builder.Post(post);
-          Interface.$content.append($post);
-          Interface.$content.scrollTop(1E10);
+        // TODO: bad regex, should replace
+        // All of this should probably be handled server side, but it'll catch some GIFs for now
+        var urlMatch = /(^|\b)([\w.]+\.[a-z]{2,3}(?:\:[0-9]{1,5})?(?:\/.*)?)([,\s]|$)/ig;
 
-          Request.withStreamToken('POST', 'post', {
-            'message': message
-          }, {
-            success: function (data) {
-              $post.data('postid', data['data']['id']);
+        var matches = urlMatch.exec(text);
+        if (matches && matches.length > 0) {
+          var potentialImageURL = 'https://' + matches[0];
+          var potentialImageURL = matches[0];
+
+          $.get('/embedly/', {'url': potentialImageURL}, function (data, status) {
+
+            if (status != 'success') {
+              fallback();
+              return;
             }
+
+            if (data['type'] != 'image') {
+              fallback();
+              return;
+            }
+
+            // BAD BAD BAD BAD
+            var extension = data['media']['url'].split('.').pop().split(/\#|\?/)[0].toLowerCase();
+
+            createPost([
+                {
+                  'type': extension == 'gif' ? 'gif' : 'image',
+                  'width': data['media']['width'],
+                  'height': data['media']['height'],
+                  'src': data['media']['url']
+                }
+            ]);
           });
+
+          return;
         }
+
+        fallback();
+      }
     }
+  });
+
+  // TODO: Could be nicer...
+  Interface.$content.on('dragover', function (e) {
+    if (StreamToken) {
+      $('#drag').removeClass('hidden');
+    }
+    return false;
+  });
+
+  Interface.$content.on('dragleave', function (e) {
+    $('#drag').addClass('hidden');
+  });
+
+  Interface.$content.on('drop', function (e) {
+    e.preventDefault();;
+    $('#drag').addClass('hidden');
+
+    if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length > 0) {
+      var file = e.originalEvent.dataTransfer.files[0];
+
+      if(!file.type.match(/image.*/)){
+        // must be an image
+    		return;
+    	}
+
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        var imageData = reader.result.split(',')[1];
+        $.ajax({
+            url: '/imgur',
+            type: 'POST',
+            data: {
+              image: imageData
+            },
+            dataType: 'json',
+            success: function (response) {
+              if (response['success']) {
+                createPost([
+                  {
+                    'type': file.type == 'image/gif' ? 'gif' : 'image',
+                    'width': response['data']['width'],
+                    'height': response['data']['height'],
+                    'src': response['data']['link']
+                  }
+                ]);
+              }
+            }
+        });
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+
+    return false;
   });
 
   refresh();

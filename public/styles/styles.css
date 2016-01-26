@@ -386,7 +386,7 @@ a {
   box-sizing: border-box;
 }
 
-.modal {
+.modal, #drag {
   position: absolute;
   background: rgba(229, 220, 214, 0.5);
   width: 100%;
@@ -455,4 +455,26 @@ a {
 
 .modal.login button:hover {
   background: #2ac644;
+}
+
+#drag {
+    pointer-events: none;
+}
+
+#drag h2 {
+  position: absolute;
+  top: 50%;
+  font-size: 48px;
+  height: 60px;
+  padding: 20px 0;
+  margin-top: -50px;
+  text-align: center;
+  left: 50%;
+  margin-left: -200px;
+  width: 500px;
+  background: #fff;
+  border-radius: 8px;
+  font-weight: 400;
+  color: #333;
+  border: 2px solid rgba(0, 0, 0, 0.1);
 }
