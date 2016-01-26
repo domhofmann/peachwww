@@ -32,6 +32,24 @@ $(function () {
     });
   });
 
+  $(document).on('Peach.deletePost', function (e, postID) {
+    Request.withStreamToken('DELETE', 'post/' + postID);
+    var matchingIndex = -1;
+    var posts = State.connectionsMap[State.selectedStreamID]['posts'];
+
+    for (var i = 0; i < posts.length; i++) {
+      var post = posts[i];
+      if (post['id'] == postID) {
+        matchingIndex = i;
+        break;
+      }
+    }
+
+    if (matchingIndex > -1) {
+      posts.splice(matchingIndex, 1);
+    }
+  });
+
   Interface.$comments.find('.close').click(function () {
     Interface.$comments.addClass('hidden');
     $('body').removeClass('comments-on');
@@ -116,6 +134,15 @@ $(function () {
       return;
     }
 
+    var expectedBuild = 2;
+    $.get('/version', function (data) {
+      if (data) {
+        if (data['build'] && data['build'] > expectedBuild) {
+          $('#refresh').removeClass('hidden');
+        }
+      }
+    });
+
     Request.withStreamToken('GET', 'connections', null, {
       success: function (data) {
         data = data['data'];
@@ -139,6 +166,7 @@ $(function () {
 
           if (index == 0) {
             $sidebarElement.addClass('me');
+            $sidebarElement.removeClass('fresh');
           }
 
           Interface.$sidebar.append($sidebarElement);

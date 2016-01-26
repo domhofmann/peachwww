@@ -98,6 +98,7 @@ var Builder = {
           assembleLikeString(post) + commentString + '\
           <div>&mdash;</div> \
           <div>' + moment.unix(post['createdTime']).fromNow() + '</div> \
+          <div class="delete"><a href="#">Delete</a></div> \
         </div> \
     ');
 
@@ -133,8 +134,20 @@ var Builder = {
       });
     };
 
+    var attachDeleteAction = function () {
+      $post.find('.delete').click(function () {
+        if (confirm('Are you sure?')) {
+          var postID = $(this).parent().parent().data('postid');
+          $(document).trigger('Peach.deletePost', postID);
+          $(this).parent().parent().remove();
+          return false;
+        }
+      });
+    }
+
     attachLikeAction();
     attachCommentAction();
+    attachDeleteAction();
 
     return $post;
   },

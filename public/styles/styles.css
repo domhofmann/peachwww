@@ -201,6 +201,20 @@ a {
   margin-right: 10px;
 }
 
+#content .post .footer div.delete {
+  display: none;
+  margin-left: 10px;
+  float: right;
+}
+
+#content .post .footer div.delete a {
+    color: rgba(255, 0, 0, 0.5);
+}
+
+.me #content .post:hover .footer div.delete {
+  display: inline-block;
+}
+
 #header {
   margin-left: 220px;
   background: #fff;
@@ -477,4 +491,19 @@ a {
   font-weight: 400;
   color: #333;
   border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+#refresh {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  background:  #0084FF;
+  color: #fff;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 13px;
 }

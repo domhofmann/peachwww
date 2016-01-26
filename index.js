@@ -59,6 +59,10 @@ app.get('/', function (req, res) {
   res.render('home');
 });
 
+app.get('/version', function (req, res) {
+  res.send({'build': 2});
+});
+
 app.get('/embedly', function (req, res) {
   request.get({
     'url': 'https://api.embed.ly/1/extract',
