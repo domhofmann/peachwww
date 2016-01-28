@@ -49,6 +49,8 @@ EMBEDLY_API_KEY=XXX
 
 Or if your environment has another way of setting `process.env`, do that. ⚡️
 
+Or if you don't need to support post creation, don't do anything. 😋
+
 Then:
 
 ```
