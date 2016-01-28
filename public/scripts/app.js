@@ -385,6 +385,8 @@ $(function () {
   refresh();
 
   setInterval(function () {
-    refresh();
+    if (StreamToken) {
+      refresh();
+    }
   }, 30 * 1000)
 });
